@@ -1,0 +1,1163 @@
+{
+  "version": 1,
+  "problems": [
+    {
+      "slug": "contains-duplicate",
+      "title": "Contains Duplicate",
+      "difficulty": "Easy",
+      "pattern": "set-membership",
+      "topics": [
+        "Array",
+        "Hash Table"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given an integer array nums, return true if any value appears at least twice, and false if every element is distinct.",
+      "entry": "containsDuplicate",
+      "signature": "def containsDuplicate(nums):",
+      "hint": "What do you need to know before you can call a value new?",
+      "invariant": "seen holds exactly the values from nums[0..i-1].",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "seen = set()",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for n in nums:",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "if n in seen:",
+          "header": true
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 2,
+          "code": "return True",
+          "header": false
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 1,
+          "code": "seen.add(n)",
+          "header": false
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 0,
+          "code": "return False",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "if n not in seen:",
+          "kind": "cmp-negate",
+          "from_chunk": 2
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            [
+              1,
+              2,
+              3,
+              1
+            ]
+          ],
+          "expected": true
+        },
+        {
+          "args": [
+            [
+              1,
+              2,
+              3,
+              4
+            ]
+          ],
+          "expected": false
+        },
+        {
+          "args": [
+            []
+          ],
+          "expected": false
+        },
+        {
+          "args": [
+            [
+              7,
+              7
+            ]
+          ],
+          "expected": true
+        }
+      ]
+    },
+    {
+      "slug": "valid-anagram",
+      "title": "Valid Anagram",
+      "difficulty": "Easy",
+      "pattern": "hashmap-count",
+      "topics": [
+        "Hash Table",
+        "String"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given two strings s and t, return true if t is an anagram of s.",
+      "entry": "isAnagram",
+      "signature": "def isAnagram(s, t):",
+      "hint": "What makes a letter in t impossible before you look at the rest?",
+      "invariant": "count holds the unmatched letters of s after the first k letters of t.",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "if len(s) != len(t):",
+          "header": true
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 1,
+          "code": "return False",
+          "header": false
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 0,
+          "code": "count = {}",
+          "header": false
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 0,
+          "code": "for ch in s:",
+          "header": true
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 1,
+          "code": "count[ch] = count.get(ch, 0) + 1",
+          "header": false
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 0,
+          "code": "for ch in t:",
+          "header": true
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 1,
+          "code": "if count.get(ch, 0) == 0:",
+          "header": true
+        },
+        {
+          "id": "c7",
+          "order": 7,
+          "indent": 2,
+          "code": "return False",
+          "header": false
+        },
+        {
+          "id": "c8",
+          "order": 8,
+          "indent": 1,
+          "code": "count[ch] -= 1",
+          "header": false
+        },
+        {
+          "id": "c9",
+          "order": 9,
+          "indent": 0,
+          "code": "return True",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "count[ch] -= 2",
+          "kind": "off-by-one",
+          "from_chunk": 8
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            "anagram",
+            "nagaram"
+          ],
+          "expected": true
+        },
+        {
+          "args": [
+            "rat",
+            "car"
+          ],
+          "expected": false
+        },
+        {
+          "args": [
+            "",
+            ""
+          ],
+          "expected": true
+        },
+        {
+          "args": [
+            "aa",
+            "ab"
+          ],
+          "expected": false
+        }
+      ]
+    },
+    {
+      "slug": "two-sum",
+      "title": "Two Sum",
+      "difficulty": "Easy",
+      "pattern": "hashmap-index",
+      "topics": [
+        "Array",
+        "Hash Table"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given an array of integers nums and an integer target, return the indices of the two numbers that add up to target.",
+      "entry": "twoSum",
+      "signature": "def twoSum(nums, target):",
+      "hint": "At each number, what is the one value that would finish the pair?",
+      "invariant": "seen maps every value before index i to its index.",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "seen = {}",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for i, n in enumerate(nums):",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "need = target - n",
+          "header": false
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 1,
+          "code": "if need in seen:",
+          "header": true
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 2,
+          "code": "return [seen[need], i]",
+          "header": false
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 1,
+          "code": "seen[n] = i",
+          "header": false
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 0,
+          "code": "return []",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "if need not in seen:",
+          "kind": "cmp-negate",
+          "from_chunk": 3
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            [
+              2,
+              7,
+              11,
+              15
+            ],
+            9
+          ],
+          "expected": [
+            0,
+            1
+          ]
+        },
+        {
+          "args": [
+            [
+              3,
+              2,
+              4
+            ],
+            6
+          ],
+          "expected": [
+            1,
+            2
+          ]
+        },
+        {
+          "args": [
+            [
+              3,
+              3
+            ],
+            6
+          ],
+          "expected": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "best-time-to-buy-and-sell-stock",
+      "title": "Best Time to Buy and Sell Stock",
+      "difficulty": "Easy",
+      "pattern": "greedy-scan",
+      "topics": [
+        "Array",
+        "Greedy"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given an array prices where prices[i] is the price on day i, return the maximum profit from a single buy and a later sell.",
+      "entry": "maxProfit",
+      "signature": "def maxProfit(prices):",
+      "hint": "Which of the two must you update first for today's profit to be legal?",
+      "invariant": "low is the cheapest price seen so far, including today.",
+      "maxIndent": 1,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "best = 0\nlow = prices[0]",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for p in prices:",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "low = min(low, p)\nbest = max(best, p - low)",
+          "header": false
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 0,
+          "code": "return best",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "low = max(low, p)\nbest = max(best, p - low)",
+          "kind": "op-swap",
+          "from_chunk": 2
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            [
+              7,
+              1,
+              5,
+              3,
+              6,
+              4
+            ]
+          ],
+          "expected": 5
+        },
+        {
+          "args": [
+            [
+              7,
+              6,
+              4,
+              3,
+              1
+            ]
+          ],
+          "expected": 0
+        },
+        {
+          "args": [
+            [
+              2
+            ]
+          ],
+          "expected": 0
+        }
+      ]
+    },
+    {
+      "slug": "longest-substring-without-repeating-characters",
+      "title": "Longest Substring Without Repeating Characters",
+      "difficulty": "Medium",
+      "pattern": "sliding-window-variable",
+      "topics": [
+        "Sliding Window",
+        "Hash Table",
+        "String"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given a string s, find the length of the longest substring without repeating characters.",
+      "entry": "lengthOfLongestSubstring",
+      "signature": "def lengthOfLongestSubstring(s):",
+      "hint": "Before you measure the window, what must already be true about it?",
+      "invariant": "seen holds exactly the characters of s[l..r] and they are all distinct.",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "res = 0\nl = 0\nseen = set()",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for r in range(len(s)):",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "while s[r] in seen:",
+          "header": true
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 2,
+          "code": "seen.remove(s[l])\nl += 1",
+          "header": false
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 1,
+          "code": "seen.add(s[r])",
+          "header": false
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 1,
+          "code": "res = max(res, r - l + 1)",
+          "header": false
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 0,
+          "code": "return res",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "if r - l + 1 > k:",
+          "kind": "cross-pattern"
+        },
+        {
+          "id": "x1",
+          "code": "res = max(res, r - l)",
+          "kind": "off-by-one",
+          "from_chunk": 5
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            "abcabcbb"
+          ],
+          "expected": 3
+        },
+        {
+          "args": [
+            "bbbbb"
+          ],
+          "expected": 1
+        },
+        {
+          "args": [
+            "pwwkew"
+          ],
+          "expected": 3
+        },
+        {
+          "args": [
+            ""
+          ],
+          "expected": 0
+        },
+        {
+          "args": [
+            "au"
+          ],
+          "expected": 2
+        }
+      ]
+    },
+    {
+      "slug": "product-of-array-except-self",
+      "title": "Product of Array Except Self",
+      "difficulty": "Medium",
+      "pattern": "prefix-suffix",
+      "topics": [
+        "Array"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given an integer array nums, return an array where answer[i] is the product of all elements of nums except nums[i], without using division.",
+      "entry": "productExceptSelf",
+      "signature": "def productExceptSelf(nums):",
+      "hint": "At index i, which factors have you already folded in and which have not?",
+      "invariant": "res[i] holds the product of everything strictly left of i.",
+      "maxIndent": 1,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "res = [1] * len(nums)\nprefix = 1",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for i in range(len(nums)):",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "res[i] = prefix\nprefix *= nums[i]",
+          "header": false
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 0,
+          "code": "suffix = 1",
+          "header": false
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 0,
+          "code": "for i in range(len(nums) - 1, -1, -1):",
+          "header": true
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 1,
+          "code": "res[i] *= suffix\nsuffix *= nums[i]",
+          "header": false
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 0,
+          "code": "return res",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "for i in range(len(nums), -1, -1):",
+          "kind": "off-by-one",
+          "from_chunk": 4
+        },
+        {
+          "id": "x1",
+          "code": "for i in range(len(nums) + 1, -1, -1):",
+          "kind": "op-swap",
+          "from_chunk": 4
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            [
+              1,
+              2,
+              3,
+              4
+            ]
+          ],
+          "expected": [
+            24,
+            12,
+            8,
+            6
+          ]
+        },
+        {
+          "args": [
+            [
+              -1,
+              1,
+              0,
+              -3,
+              3
+            ]
+          ],
+          "expected": [
+            0,
+            0,
+            9,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "valid-palindrome",
+      "title": "Valid Palindrome",
+      "difficulty": "Easy",
+      "pattern": "two-pointer-converge",
+      "topics": [
+        "Two Pointers",
+        "String"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given a string s, return true if it is a palindrome after removing non-alphanumeric characters and ignoring case.",
+      "entry": "isPalindrome",
+      "signature": "def isPalindrome(s):",
+      "hint": "What has to stay true about the two pointers for the comparison to mean anything?",
+      "invariant": "clean[0..l-1] mirrors clean[r+1..end].",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "clean = [c.lower() for c in s if c.isalnum()]\nl = 0\nr = len(clean) - 1",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "while l < r:",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "if clean[l] != clean[r]:",
+          "header": true
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 2,
+          "code": "return False",
+          "header": false
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 1,
+          "code": "l += 1",
+          "header": false
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 1,
+          "code": "r -= 1",
+          "header": false
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 0,
+          "code": "return True",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "r -= 2",
+          "kind": "off-by-one",
+          "from_chunk": 5
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            "A man, a plan, a canal: Panama"
+          ],
+          "expected": true
+        },
+        {
+          "args": [
+            "race a car"
+          ],
+          "expected": false
+        },
+        {
+          "args": [
+            " "
+          ],
+          "expected": true
+        }
+      ]
+    },
+    {
+      "slug": "climbing-stairs",
+      "title": "Climbing Stairs",
+      "difficulty": "Easy",
+      "pattern": "dp-1d-linear",
+      "topics": [
+        "Dynamic Programming",
+        "Array"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "You are climbing a staircase of n steps, taking 1 or 2 steps at a time. In how many distinct ways can you reach the top?",
+      "entry": "climbStairs",
+      "signature": "def climbStairs(n):",
+      "hint": "How many previous answers does the next one actually depend on?",
+      "invariant": "b is the number of ways to reach the current step, a the step before it.",
+      "maxIndent": 1,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "a = 1\nb = 1",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for _ in range(n - 1):",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "a, b = (b, a + b)",
+          "header": false
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 0,
+          "code": "return b",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "for _ in range(n):",
+          "kind": "off-by-one",
+          "from_chunk": 1
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            2
+          ],
+          "expected": 2
+        },
+        {
+          "args": [
+            3
+          ],
+          "expected": 3
+        },
+        {
+          "args": [
+            5
+          ],
+          "expected": 8
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": 1
+        }
+      ]
+    },
+    {
+      "slug": "merge-intervals",
+      "title": "Merge Intervals",
+      "difficulty": "Medium",
+      "pattern": "intervals-sort-merge",
+      "topics": [
+        "Array",
+        "Sorting"
+      ],
+      "lists": [
+        "blind75",
+        "neetcode150"
+      ],
+      "statement": "Given an array of intervals, merge all overlapping intervals and return the non-overlapping intervals that cover all the input.",
+      "entry": "merge",
+      "signature": "def merge(intervals):",
+      "hint": "What must be true about the order before overlap is only ever with the last one?",
+      "invariant": "res is sorted and pairwise disjoint after each step.",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "intervals.sort(key=lambda x: x[0])\nres = []",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "for start, end in intervals:",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "if res and start <= res[-1][1]:",
+          "header": true
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 2,
+          "code": "res[-1][1] = max(res[-1][1], end)",
+          "header": false
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 1,
+          "code": "else:",
+          "header": true
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 2,
+          "code": "res.append([start, end])",
+          "header": false
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 0,
+          "code": "return res",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "if res and start < res[-1][1]:",
+          "kind": "cmp-boundary",
+          "from_chunk": 2
+        },
+        {
+          "id": "x1",
+          "code": "res[-1][1] = min(res[-1][1], end)",
+          "kind": "op-swap",
+          "from_chunk": 3
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            [
+              [
+                1,
+                3
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                8,
+                10
+              ],
+              [
+                15,
+                18
+              ]
+            ]
+          ],
+          "expected": [
+            [
+              1,
+              6
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              15,
+              18
+            ]
+          ]
+        },
+        {
+          "args": [
+            [
+              [
+                1,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ]
+          ],
+          "expected": [
+            [
+              1,
+              5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "binary-search",
+      "title": "Binary Search",
+      "difficulty": "Easy",
+      "pattern": "binary-search-index",
+      "topics": [
+        "Array",
+        "Binary Search"
+      ],
+      "lists": [
+        "neetcode150"
+      ],
+      "statement": "Given a sorted array of integers nums and an integer target, return the index of target, or -1 if it does not exist.",
+      "entry": "search",
+      "signature": "def search(nums, target):",
+      "hint": "After a comparison, which half can you prove the answer is not in?",
+      "invariant": "if target exists it lies in nums[lo..hi].",
+      "maxIndent": 2,
+      "chunks": [
+        {
+          "id": "c0",
+          "order": 0,
+          "indent": 0,
+          "code": "lo = 0\nhi = len(nums) - 1",
+          "header": false
+        },
+        {
+          "id": "c1",
+          "order": 1,
+          "indent": 0,
+          "code": "while lo <= hi:",
+          "header": true
+        },
+        {
+          "id": "c2",
+          "order": 2,
+          "indent": 1,
+          "code": "mid = (lo + hi) // 2",
+          "header": false
+        },
+        {
+          "id": "c3",
+          "order": 3,
+          "indent": 1,
+          "code": "if nums[mid] == target:",
+          "header": true
+        },
+        {
+          "id": "c4",
+          "order": 4,
+          "indent": 2,
+          "code": "return mid",
+          "header": false
+        },
+        {
+          "id": "c5",
+          "order": 5,
+          "indent": 1,
+          "code": "if nums[mid] < target:",
+          "header": true
+        },
+        {
+          "id": "c6",
+          "order": 6,
+          "indent": 2,
+          "code": "lo = mid + 1",
+          "header": false
+        },
+        {
+          "id": "c7",
+          "order": 7,
+          "indent": 1,
+          "code": "else:",
+          "header": true
+        },
+        {
+          "id": "c8",
+          "order": 8,
+          "indent": 2,
+          "code": "hi = mid - 1",
+          "header": false
+        },
+        {
+          "id": "c9",
+          "order": 9,
+          "indent": 0,
+          "code": "return -1",
+          "header": false
+        }
+      ],
+      "distractors": [
+        {
+          "id": "x0",
+          "code": "hi = mid",
+          "kind": "off-by-one",
+          "from_chunk": 8
+        }
+      ],
+      "tests": [
+        {
+          "args": [
+            [
+              -1,
+              0,
+              3,
+              5,
+              9,
+              12
+            ],
+            9
+          ],
+          "expected": 4
+        },
+        {
+          "args": [
+            [
+              -1,
+              0,
+              3,
+              5,
+              9,
+              12
+            ],
+            2
+          ],
+          "expected": -1
+        },
+        {
+          "args": [
+            [
+              5
+            ],
+            5
+          ],
+          "expected": 0
+        }
+      ]
+    }
+  ]
+}
