@@ -1,4 +1,4 @@
-# Parsons
+# LeetCode Helper
 
 Reassemble shuffled code blocks into a working solution. The drill trains the
 mapping from problem statement to algorithm skeleton, which is the thing that
