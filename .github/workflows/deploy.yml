@@ -1,0 +1,112 @@
+# Builds the Parsons web app and publishes it to GitHub Pages.
+#
+# Every 30 minutes it checks IvanHua2004/leetcode-solutions; if a new solution
+# was pushed since the last deploy, it re-syncs (tools/sync) and redeploys.
+# One-time setup: repo Settings -> Pages -> Source: "GitHub Actions".
+name: Deploy Parsons
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  SOLUTIONS_REPO: https://github.com/IvanHua2004/leetcode-solutions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: leetcoder-helper
+    outputs:
+      skip: ${{ steps.skip.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Has anything changed since the last deploy?
+        id: changed
+        run: |
+          head=$(git ls-remote "$SOLUTIONS_REPO" HEAD | cut -f1)
+          echo "solutions=$head" >> "$GITHUB_OUTPUT"
+          echo "Solutions repo is at $head"
+
+      - name: Remember what was last deployed
+        id: marker
+        uses: actions/cache@v4
+        with:
+          path: leetcoder-helper/.cache/deployed
+          key: deployed-${{ github.sha }}-${{ steps.changed.outputs.solutions }}
+
+      - name: Skip scheduled runs with nothing new
+        id: skip
+        if: github.event_name == 'schedule' && steps.marker.outputs.cache-hit == 'true'
+        run: echo "skip=true" >> "$GITHUB_OUTPUT"
+
+      - name: Keep LeetCode topic lookups between runs
+        if: steps.skip.outputs.skip != 'true'
+        uses: actions/cache@v4
+        with:
+          path: leetcoder-helper/.cache/sync/leetcode-meta.json
+          key: leetcode-meta-${{ github.run_id }}
+          restore-keys: leetcode-meta-
+
+      - uses: pnpm/action-setup@v4
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          package_json_file: leetcoder-helper/package.json
+
+      - uses: actions/setup-node@v4
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: leetcoder-helper/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v5
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          python-version: '3.12'
+
+      - name: Pull and check your solutions
+        if: steps.skip.outputs.skip != 'true'
+        run: python tools/sync/sync.py --repo "$SOLUTIONS_REPO" --no-seed --force
+
+      - name: Build
+        if: steps.skip.outputs.skip != 'true'
+        env:
+          PARSONS_BASE: /${{ github.event.repository.name }}/
+          VITE_API_URL: ''
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @parsons/shared build
+          node tools/verify/check-assembler.mjs && python tools/verify/run-assembled.py
+          pnpm --filter web build
+          mkdir -p .cache/deployed && touch .cache/deployed/ok
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          path: leetcoder-helper/apps/web/dist
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
